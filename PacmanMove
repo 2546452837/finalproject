@@ -1,0 +1,59 @@
+using UnityEngine;
+using System.Collections;
+
+public class PacmanMove : MonoBehaviour {
+
+	public float speed = 0.4f;
+
+	Vector2 dest = Vector2.zero;
+
+
+	void Start () {
+
+         dest=transform.position;
+
+	}
+
+	void FixedUpdate () {
+
+
+		//通過Rigidbody2D，實現Pacman的移動
+		Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
+
+		GetComponent<Rigidbody2D>().MovePosition(p);
+
+		//收及輸入訊息，通過Valid方法，計算移動距離
+		if (Input.GetKey (KeyCode.UpArrow)) 
+		{
+
+			dest=Valid (Vector2.up,dest);
+		}
+
+		if (Input.GetKey (KeyCode.RightArrow)) 
+		{
+
+			dest=Valid (Vector2.right,dest);
+		}
+			
+
+		if (Input.GetKey (KeyCode.DownArrow)) 
+		{
+
+			dest=Valid (-Vector2.up,dest);
+		}
+
+		if (Input.GetKey (KeyCode.LeftArrow)) 
+		{
+
+			dest=Valid (-Vector2.right,dest);
+		}
+
+
+		//判斷執行動畫
+		Vector2 dir = dest - (Vector2)transform.position;
+
+		GetComponent<Animator> ().SetFloat ("DirX",dir.x);
+
+		GetComponent<Animator> ().SetFloat ("DirY",dir.y);
+			
+	}
