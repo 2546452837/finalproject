@@ -57,3 +57,31 @@ public class PacmanMove : MonoBehaviour {
 		GetComponent<Animator> ().SetFloat ("DirY",dir.y);
 			
 	}
+	//該方法用來判斷角色是否可以在該方向上移動，同時計算移動距離
+	Vector2 Valid(Vector2 dir,Vector2 dest)
+	{
+
+		//通過射線檢測判斷是否可以通過，移動時可能會有一定誤差，所以用Vector2.Scale(dir,new Vector2(0.1f,0.1f))進行了一定誤差處理）
+
+		Vector2 pos =transform.position;
+
+        RaycastHit2D hit = Physics2D.Linecast(pos + dir + Vector2.Scale(dir, new Vector2(0.1f, 0.1f)), pos);
+
+
+		//通過相應判斷進行移動計算
+		if(hit.collider==GetComponent<Collider2D>())
+		{
+
+			if((Vector2)transform.position == dest)
+			{
+				
+				dest = (Vector2)transform.position + dir;
+
+			}
+
+		}
+
+		return dest;
+	}
+		
+}
